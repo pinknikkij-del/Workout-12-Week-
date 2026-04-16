@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikki's Gym Programme</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #2a7c74;
+    --teal-light: #3da89d;
+    --teal-pale: #e8f5f4;
+    --gold: #c9883a;
+    --gold-light: #f0c87a;
+    --cream: #faf8f4;
+    --charcoal: #2c2c2c;
+    --mid: #5a5a5a;
+    --soft: #8a8a8a;
+    --border: #e0dbd2;
+    --white: #ffffff;
+    --phase1: #2a7c74;
+    --phase2: #c9883a;
+    --phase3: #7c4a8c;
+    --warn: #e05c3a;
+  }
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: ‘DM Sans’, sans-serif;
+background: var(–cream);
+color: var(–charcoal);
+min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+background: var(–charcoal);
+padding: 28px 24px 22px;
+position: relative;
+overflow: hidden;
+}
+.header::before {
+content: ‘’;
+position: absolute;
+top: -40px; right: -40px;
+width: 200px; height: 200px;
+border-radius: 50%;
+background: var(–teal);
+opacity: 0.15;
+}
+.header-sub {
+font-family: ‘DM Sans’, sans-serif;
+font-size: 10px;
+font-weight: 600;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–teal-light);
+margin-bottom: 6px;
+}
+.header h1 {
+font-family: ‘Playfair Display’, serif;
+font-size: 28px;
+font-weight: 900;
+color: var(–white);
+line-height: 1.1;
+}
+.header h1 span { color: var(–gold-light); }
+.header-desc {
+font-size: 12px;
+color: #aaa;
+margin-top: 8px;
+line-height: 1.5;
+}
+
+/* TABS */
+.tab-bar {
+display: flex;
+background: var(–white);
+border-bottom: 2px solid var(–border);
+overflow-x: auto;
+-webkit-overflow-scrolling: touch;
+scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab {
+flex: 0 0 auto;
+padding: 14px 18px;
+font-size: 12px;
+font-weight: 600;
+letter-spacing: 0.5px;
+color: var(–soft);
+cursor: pointer;
+border-bottom: 3px solid transparent;
+transition: all 0.2s;
+white-space: nowrap;
+background: none;
+border-top: none;
+border-left: none;
+border-right: none;
+}
+.tab.active { color: var(–teal); border-bottom-color: var(–teal); }
+.tab:hover { color: var(–teal); }
+
+/* CONTENT */
+.content { padding: 20px 16px 80px; max-width: 680px; margin: 0 auto; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* CARDS */
+.card {
+background: var(–white);
+border-radius: 16px;
+padding: 20px;
+margin-bottom: 16px;
+border: 1px solid var(–border);
+box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.card-header {
+display: flex;
+align-items: center;
+gap: 12px;
+margin-bottom: 14px;
+}
+.card-icon {
+width: 40px; height: 40px;
+border-radius: 12px;
+display: flex; align-items: center; justify-content: center;
+font-size: 18px;
+flex-shrink: 0;
+}
+.card-title { font-family: ‘Playfair Display’, serif; font-size: 17px; font-weight: 700; }
+.card-subtitle { font-size: 11px; color: var(–soft); margin-top: 2px; letter-spacing: 0.3px; }
+
+/* PHASE BADGE */
+.phase-badge {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+padding: 5px 12px;
+border-radius: 20px;
+font-size: 11px;
+font-weight: 600;
+letter-spacing: 0.5px;
+margin-bottom: 16px;
+}
+.phase-badge.p1 { background: #e8f5f4; color: var(–phase1); }
+.phase-badge.p2 { background: #fdf3e7; color: var(–phase2); }
+.phase-badge.p3 { background: #f5eef8; color: var(–phase3); }
+
+/* EXERCISE TABLE */
+.ex-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+.ex-table th {
+font-size: 10px;
+font-weight: 600;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(–soft);
+padding: 6px 8px;
+text-align: left;
+border-bottom: 1px solid var(–border);
+}
+.ex-table td {
+padding: 10px 8px;
+font-size: 13px;
+border-bottom: 1px solid #f0ece6;
+vertical-align: top;
+}
+.ex-table tr:last-child td { border-bottom: none; }
+.ex-table td:first-child { font-weight: 600; color: var(–charcoal); }
+.ex-note { font-size: 11px; color: var(–teal); margin-top: 3px; font-style: italic; }
+.ex-joint { font-size: 10px; color: var(–gold); margin-top: 2px; }
+
+/* INFO BOX */
+.info-box {
+border-radius: 12px;
+padding: 14px 16px;
+margin-bottom: 14px;
+font-size: 13px;
+line-height: 1.6;
+}
+.info-box.teal { background: var(–teal-pale); border-left: 4px solid var(–teal); }
+.info-box.gold { background: #fdf3e7; border-left: 4px solid var(–gold); }
+.info-box.warn { background: #fdf0ec; border-left: 4px solid var(–warn); }
+.info-box strong { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.3px; margin-bottom: 4px; color: var(–charcoal); }
+
+/* PROGRESS */
+.progress-section { margin-bottom: 20px; }
+.progress-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 16px;
+font-weight: 700;
+margin-bottom: 12px;
+}
+
+.phase-timeline {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+.phase-row {
+background: var(–white);
+border-radius: 14px;
+padding: 16px;
+border: 1px solid var(–border);
+cursor: pointer;
+transition: all 0.2s;
+}
+.phase-row.current { border-color: var(–teal); box-shadow: 0 0 0 3px rgba(42,124,116,0.1); }
+.phase-row:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.phase-row-header { display: flex; justify-content: space-between; align-items: center; }
+.phase-name {
+font-weight: 700;
+font-size: 14px;
+display: flex; align-items: center; gap: 8px;
+}
+.phase-dot {
+width: 10px; height: 10px; border-radius: 50%;
+}
+.phase-dot.p1 { background: var(–phase1); }
+.phase-dot.p2 { background: var(–phase2); }
+.phase-dot.p3 { background: var(–phase3); }
+.phase-weeks { font-size: 11px; color: var(–soft); }
+.phase-desc { font-size: 12px; color: var(–mid); margin-top: 6px; line-height: 1.5; }
+.phase-goals { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.goal-chip {
+background: #f0ece6;
+border-radius: 20px;
+padding: 4px 10px;
+font-size: 11px;
+font-weight: 500;
+color: var(–mid);
+}
+.status-chip {
+font-size: 11px;
+font-weight: 600;
+padding: 4px 10px;
+border-radius: 20px;
+}
+.status-chip.current { background: var(–teal-pale); color: var(–teal); }
+.status-chip.upcoming { background: #f0ece6; color: var(–soft); }
+.status-chip.done { background: #eef5e8; color: #4a8a2a; }
+
+/* PROGRESSION SIGNALS */
+.signal-list { list-style: none; }
+.signal-list li {
+padding: 10px 0;
+border-bottom: 1px solid var(–border);
+font-size: 13px;
+display: flex;
+gap: 10px;
+align-items: flex-start;
+line-height: 1.5;
+}
+.signal-list li:last-child { border-bottom: none; }
+.signal-list li::before {
+content: ‘→’;
+color: var(–teal);
+font-weight: 700;
+flex-shrink: 0;
+margin-top: 1px;
+}
+
+/* SWIMMING / BALANCE */
+.activity-row {
+display: flex;
+gap: 12px;
+align-items: flex-start;
+padding: 12px 0;
+border-bottom: 1px solid var(–border);
+}
+.activity-row:last-child { border-bottom: none; }
+.activity-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.activity-title { font-weight: 600; font-size: 14px; }
+.activity-detail { font-size: 12px; color: var(–mid); margin-top: 3px; line-height: 1.5; }
+
+/* WEEK PLANNER */
+.week-grid { display: flex; flex-direction: column; gap: 8px; }
+.day-row {
+display: flex;
+align-items: center;
+gap: 12px;
+background: var(–white);
+border-radius: 12px;
+padding: 12px 14px;
+border: 1px solid var(–border);
+}
+.day-label {
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(–soft);
+width: 32px;
+flex-shrink: 0;
+}
+.day-activity {
+font-size: 13px;
+font-weight: 500;
+}
+.day-rest { color: var(–soft); font-style: italic; font-size: 12px; }
+.day-dot {
+width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* JOINT SAFETY */
+.joint-section { margin-bottom: 16px; }
+.joint-title {
+font-size: 12px;
+font-weight: 700;
+letter-spacing: 0.5px;
+text-transform: uppercase;
+color: var(–soft);
+margin-bottom: 8px;
+}
+
+/* DIVIDER */
+.divider { height: 1px; background: var(–border); margin: 16px 0; }
+
+/* SCROLL TO TOP */
+.back-top {
+display: block;
+text-align: center;
+margin-top: 20px;
+font-size: 12px;
+color: var(–soft);
+cursor: pointer;
+text-decoration: underline;
+}
+
+h2.section-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 900;
+margin-bottom: 4px;
+}
+.section-intro {
+font-size: 13px;
+color: var(–mid);
+margin-bottom: 20px;
+line-height: 1.6;
+}
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stat-box {
+background: var(–white);
+border-radius: 12px;
+padding: 14px;
+border: 1px solid var(–border);
+text-align: center;
+}
+.stat-num { font-family: ‘Playfair Display’, serif; font-size: 26px; font-weight: 900; color: var(–teal); }
+.stat-label { font-size: 11px; color: var(–soft); margin-top: 2px; }
+</style>
+
+</head>
+<body>
+
+<div class="header">
+  <div class="header-sub">Torbay Leisure Centre</div>
+  <h1>Nikki's <span>Personal</span><br>Trainer Programme</h1>
+  <div class="header-desc">Progressive 12-week gym programme · Flexitarian-aware · Joint-safe · Weight loss & lean muscle</div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="showTab('overview')">Overview</button>
+  <button class="tab" onclick="showTab('phase1')">Phase 1</button>
+  <button class="tab" onclick="showTab('phase2')">Phase 2</button>
+  <button class="tab" onclick="showTab('phase3')">Phase 3</button>
+  <button class="tab" onclick="showTab('weekly')">Week Plan</button>
+  <button class="tab" onclick="showTab('joints')">Joint Care</button>
+</div>
+
+<!-- ===== OVERVIEW ===== -->
+
+<div id="overview" class="section active content">
+  <h2 class="section-title">Your Programme</h2>
+  <p class="section-intro">Designed specifically for you: 60, female, returning to fitness, with arthritic knees, disc issues and SI joint irritation — and the mobility you've worked hard to maintain.</p>
+
+  <div class="two-col">
+    <div class="stat-box"><div class="stat-num">12</div><div class="stat-label">Weeks total</div></div>
+    <div class="stat-box"><div class="stat-num">2</div><div class="stat-label">Gym sessions/week</div></div>
+    <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Phases</div></div>
+    <div class="stat-box"><div class="stat-num">45–60</div><div class="stat-label">Mins per session</div></div>
+  </div>
+
+  <div class="info-box teal">
+    <strong>🎯 Your Goals</strong>
+    Lose body fat · Build lean, functional muscle · Strengthen the muscles supporting your knees, spine & SI joint · Feel stronger and more energised
+  </div>
+
+  <div class="info-box gold">
+    <strong>🏊 Your Full Activity Mix</strong>
+    2× gym sessions + breaststroke swimming (low-impact, excellent for hips & core) + Lee Mills Body Balance (mobility, core, balance — perfectly complementary)
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-title">The Three Phases</div>
+    <div class="phase-timeline">
+
+```
+  <div class="phase-row current">
+    <div class="phase-row-header">
+      <div class="phase-name"><div class="phase-dot p1"></div>Phase 1 — Foundation</div>
+      <div class="status-chip current">Start Here</div>
+    </div>
+    <div class="phase-weeks">Weeks 1–4 · 2 gym sessions/week</div>
+    <div class="phase-desc">Learn machine settings, establish form, activate stabiliser muscles, build the habit safely. Low weight, higher reps, controlled movement.</div>
+    <div class="phase-goals">
+      <span class="goal-chip">Machine familiarity</span>
+      <span class="goal-chip">Joint stability</span>
+      <span class="goal-chip">Baseline strength</span>
+      <span class="goal-chip">Confidence</span>
+    </div>
+  </div>
+
+  <div class="phase-row">
+    <div class="phase-row-header">
+      <div class="phase-name"><div class="phase-dot p2"></div>Phase 2 — Build</div>
+      <div class="status-chip upcoming">Weeks 5–8</div>
+    </div>
+    <div class="phase-weeks">Weeks 5–8 · Progressive load increases</div>
+    <div class="phase-desc">Increase resistance, introduce supersets, reduce rest times. Your body is now adapted — time to challenge it more.</div>
+    <div class="phase-goals">
+      <span class="goal-chip">Increased load</span>
+      <span class="goal-chip">Supersets</span>
+      <span class="goal-chip">Endurance</span>
+      <span class="goal-chip">Fat burn</span>
+    </div>
+  </div>
+
+  <div class="phase-row">
+    <div class="phase-row-header">
+      <div class="phase-name"><div class="phase-dot p3"></div>Phase 3 — Strengthen</div>
+      <div class="status-chip upcoming">Weeks 9–12</div>
+    </div>
+    <div class="phase-weeks">Weeks 9–12 · Functional strength focus</div>
+    <div class="phase-desc">Consolidate gains, introduce compound movement patterns, increase metabolic challenge. By week 12 you'll have a solid baseline for ongoing training.</div>
+    <div class="phase-goals">
+      <span class="goal-chip">Compound moves</span>
+      <span class="goal-chip">Metabolic circuits</span>
+      <span class="goal-chip">Long-term base</span>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <div class="info-box warn">
+    <strong>⚠️ Always Remember</strong>
+    Stop if you feel sharp or shooting pain (different from muscle effort). Disc and SI issues mean you avoid heavy loading through the spine — all exercises here are selected with that in mind. Listen to your body over any plan.
+  </div>
+</div>
+
+<!-- ===== PHASE 1 ===== -->
+
+<div id="phase1" class="section content">
+  <h2 class="section-title">Phase 1</h2>
+  <p class="section-intro">Weeks 1–4 · Foundation & Form</p>
+
+  <div class="phase-badge p1">● Phase 1 — Start Here</div>
+
+  <div class="info-box teal">
+    <strong>Your approach this phase</strong>
+    Focus on learning the equipment, moving slowly and with control, and finishing sessions feeling energised — not exhausted. Aim for effort level 5–6 out of 10. If you're sore for more than 2 days, reduce weight or reps next session.
+  </div>
+
+  <!-- SESSION A -->
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#e8f5f4;">💪</div>
+      <div>
+        <div class="card-title">Session A — Lower Body Focus</div>
+        <div class="card-subtitle">~50 mins · Do on Day 1 of your gym week</div>
+      </div>
+    </div>
+
+```
+<div class="info-box gold" style="margin-bottom:12px;padding:10px 12px;">
+  <strong>Warm-up — 10 mins</strong>
+  Recumbent bike at easy pace. No resistance to start. Just get blood moving. Gradually add 1–2 levels of resistance after 5 mins.
+</div>
+
+<table class="ex-table">
+  <tr><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr>
+  <tr>
+    <td>Leg Press Machine<div class="ex-joint">🦵 Knees & hips</div></td>
+    <td>3 × 12–15</td>
+    <td><div class="ex-note">Feet hip-width, toes slightly out. Don't lock knees at top. Start very light — form first. Builds quad strength to protect knee joints.</div></td>
+  </tr>
+  <tr>
+    <td>Seated Leg Curl Machine<div class="ex-joint">🦵 Hamstrings</div></td>
+    <td>3 × 12–15</td>
+    <td><div class="ex-note">Slow lowering phase (3 counts). Hamstrings support your knees from behind — crucial for knee health.</div></td>
+  </tr>
+  <tr>
+    <td>Seated Hip Abductor Machine<div class="ex-joint">🍑 Glutes & SI joint</div></td>
+    <td>3 × 15</td>
+    <td><div class="ex-note">Light resistance. Slow and controlled. Strong glutes are your best defence for SI joint issues.</div></td>
+  </tr>
+  <tr>
+    <td>Resistance Band Clamshells (seated on bench)<div class="ex-joint">🍑 Hip stabilisers</div></td>
+    <td>2 × 15 each side</td>
+    <td><div class="ex-note">Band just above knees. Seated version avoids spinal loading. Targets hip external rotators.</div></td>
+  </tr>
+  <tr>
+    <td>Cross Trainer — Steady State<div class="ex-joint">🫀 Cardio, low impact</div></td>
+    <td>10–12 mins</td>
+    <td><div class="ex-note">Level 4–5. Arms engaged. This burns calories without joint stress. Build to 15 mins by week 4.</div></td>
+  </tr>
+</table>
+
+<div class="divider"></div>
+<div class="info-box teal" style="margin-bottom:0;">
+  <strong>Cool-down — 5 mins</strong>
+  Seated hamstring stretch · Standing quad stretch (hold rail) · Hip flexor stretch standing · Gentle seated forward fold
+</div>
+```
+
+  </div>
+
+  <!-- SESSION B -->
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#fdf3e7;">🏋️</div>
+      <div>
+        <div class="card-title">Session B — Upper Body & Core</div>
+        <div class="card-subtitle">~50 mins · 2–3 days after Session A</div>
+      </div>
+    </div>
+
+```
+<div class="info-box gold" style="margin-bottom:12px;padding:10px 12px;">
+  <strong>Warm-up — 10 mins</strong>
+  Recumbent bike, light resistance. Add 3 mins of arm circles, shoulder rolls, and gentle neck stretches before getting on machines.
+</div>
+
+<table class="ex-table">
+  <tr><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr>
+  <tr>
+    <td>Chest Press Machine<div class="ex-joint">💪 Chest, shoulders, triceps</div></td>
+    <td>3 × 12</td>
+    <td><div class="ex-note">Seat adjusted so handles are at mid-chest. Don't arch your lower back. Exhale on press. Good for posture.</div></td>
+  </tr>
+  <tr>
+    <td>Seated Row Machine (Cable)<div class="ex-joint">🔙 Back, biceps, posture</div></td>
+    <td>3 × 12</td>
+    <td><div class="ex-note">Sit tall. Pull to lower chest. Squeeze shoulder blades together at end. Vital for spinal support and countering forward posture.</div></td>
+  </tr>
+  <tr>
+    <td>Lat Pulldown Machine<div class="ex-joint">🔙 Lats, upper back</div></td>
+    <td>3 × 12</td>
+    <td><div class="ex-note">Wide grip, bar to collarbone. Don't pull behind neck. A strong back supports your spine and SI joint.</div></td>
+  </tr>
+  <tr>
+    <td>Light Dumbbell Lateral Raises<div class="ex-joint">💪 Shoulders</div></td>
+    <td>2 × 12 (2–3kg)</td>
+    <td><div class="ex-note">Seated on a bench. Slow and controlled. Don't shrug. Great for functional shoulder strength.</div></td>
+  </tr>
+  <tr>
+    <td>Seated Core: Dead Bug variation<div class="ex-joint">🏋️ Core, disc-safe</div></td>
+    <td>2 × 8 each side</td>
+    <td><div class="ex-note">Seated on bench edge: extend one leg out slowly, hold 3 sec, return. Activates deep core without spinal compression.</div></td>
+  </tr>
+</table>
+
+<div class="divider"></div>
+<div class="info-box teal" style="margin-bottom:0;">
+  <strong>Cool-down — 5 mins</strong>
+  Chest doorway stretch · Seated thoracic rotation · Shoulder cross-body stretch · Upper trap stretch
+</div>
+```
+
+  </div>
+
+  <!-- PHASE 1 PROGRESSION -->
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#e8f5f4;">📈</div>
+      <div>
+        <div class="card-title">Progression Within Phase 1</div>
+        <div class="card-subtitle">How to move forward week by week</div>
+      </div>
+    </div>
+    <ul class="signal-list">
+      <li><strong>Week 1–2:</strong> Focus entirely on form and machine settings. Note your weight settings in a notebook or phone. Effort should feel moderate — you should be able to speak in short sentences.</li>
+      <li><strong>Week 3:</strong> If the last 2 reps of each set feel easy, add the smallest available weight increment (usually 2.5–5kg on machines).</li>
+      <li><strong>Week 4:</strong> Aim for all sets feeling comfortably challenging. By end of week 4 you should be completing all sets without needing to rest mid-set. This is your Phase 1 graduation marker.</li>
+      <li><strong>Cardio:</strong> Add 2 minutes to your cross trainer time each week. Target 15 mins by end of week 4.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== PHASE 2 ===== -->
+
+<div id="phase2" class="section content">
+  <h2 class="section-title">Phase 2</h2>
+  <p class="section-intro">Weeks 5–8 · Build & Challenge</p>
+
+  <div class="phase-badge p2">● Phase 2 — Build</div>
+
+  <div class="info-box gold">
+    <strong>What changes in Phase 2</strong>
+    You've built your base. Now we increase the challenge: more weight, slightly fewer reps (to build muscle density), supersets (two exercises back-to-back with minimal rest), and longer cardio. Effort level rises to 6–7 out of 10. This is where real body composition change accelerates.
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#fdf3e7;">💪</div>
+      <div>
+        <div class="card-title">Session A — Lower Body (Phase 2)</div>
+        <div class="card-subtitle">Now includes supersets</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <tr><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr>
+      <tr>
+        <td>Leg Press</td>
+        <td>4 × 10–12</td>
+        <td><div class="ex-note">Increase weight from Phase 1. Slower lowering: 3 counts down, push up in 1.</div></td>
+      </tr>
+      <tr>
+        <td>Superset A1: Seated Leg Curl<br>Superset A2: Hip Abductor</td>
+        <td>3 × 12 each<br>(no rest between)</td>
+        <td><div class="ex-note">Do A1 immediately followed by A2, then rest 60 secs. Increases metabolic demand.</div></td>
+      </tr>
+      <tr>
+        <td>Resistance Band Side Steps (standing)</td>
+        <td>2 × 15 each direction</td>
+        <td><div class="ex-note">Band above knees. Slight knee bend. Step sideways 15 steps, return. Hold rail if needed for balance.</div></td>
+      </tr>
+      <tr>
+        <td>Cross Trainer — Interval Style</td>
+        <td>15 mins</td>
+        <td><div class="ex-note">2 mins easy, 1 min faster/harder. Repeat. This burns significantly more calories than steady-state.</div></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#e8f5f4;">🏋️</div>
+      <div>
+        <div class="card-title">Session B — Upper Body & Core (Phase 2)</div>
+        <div class="card-subtitle">Heavier loads, added core work</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <tr><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr>
+      <tr>
+        <td>Chest Press Machine</td>
+        <td>4 × 10</td>
+        <td><div class="ex-note">Increase weight. Full range of motion. 2-count press, 3-count return.</div></td>
+      </tr>
+      <tr>
+        <td>Superset B1: Seated Row<br>Superset B2: Lat Pulldown</td>
+        <td>3 × 10 each<br>(no rest between)</td>
+        <td><div class="ex-note">Back-to-back. Creates excellent upper back strength and improved posture.</div></td>
+      </tr>
+      <tr>
+        <td>Dumbbell Shoulder Press (seated)</td>
+        <td>3 × 10 (4–5kg)</td>
+        <td><div class="ex-note">Seated, back supported. Press overhead — don't lock out. Increases functional shoulder strength.</div></td>
+      </tr>
+      <tr>
+        <td>Dumbbell Bicep Curl + Tricep Overhead Extension</td>
+        <td>3 × 12 each</td>
+        <td><div class="ex-note">Superset these too. Light weight. Arm definition and metabolic burn.</div></td>
+      </tr>
+      <tr>
+        <td>Core: Pallof Press with Resistance Band</td>
+        <td>3 × 10 each side</td>
+        <td><div class="ex-note">Attach band to a cable machine. Stand side-on, press band straight out, hold 2 sec, return. Anti-rotation — excellent for disc and SI joint safety.</div></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-icon" style="display:inline-flex;background:#fdf3e7;margin-bottom:12px;">📈</div>
+    <div class="card-title" style="margin-bottom:12px;">Progression Signals — Move to Phase 3 When...</div>
+    <ul class="signal-list">
+      <li>You're completing all supersets without needing to drop weight mid-set</li>
+      <li>Your cross trainer intervals feel manageable and you want more challenge</li>
+      <li>Post-session soreness lasts less than 24 hours</li>
+      <li>You feel strong, stable, and confident on all machines</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== PHASE 3 ===== -->
+
+<div id="phase3" class="section content">
+  <h2 class="section-title">Phase 3</h2>
+  <p class="section-intro">Weeks 9–12 · Strengthen & Consolidate</p>
+
+  <div class="phase-badge p3">● Phase 3 — Strengthen</div>
+
+  <div class="info-box" style="background:#f5eef8;border-left:4px solid var(--phase3);">
+    <strong>What changes in Phase 3</strong>
+    This phase introduces more functional, compound patterns. You'll be using more muscle groups simultaneously — mirroring how you use your body in real life. Sessions become more metabolically demanding and you'll start to notice real strength and body composition changes. Effort level 7–8 out of 10.
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#f5eef8;">💪</div>
+      <div>
+        <div class="card-title">Session A — Full Lower + Core Circuit</div>
+        <div class="card-subtitle">Compound + functional</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <tr><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr>
+      <tr>
+        <td>Leg Press (heavier)</td>
+        <td>4 × 8–10</td>
+        <td><div class="ex-note">Heaviest weight yet. Still controlled. 4 counts down, 2 up.</div></td>
+      </tr>
+      <tr>
+        <td>Circuit: Leg Curl + Hip Abductor + Band Side Steps</td>
+        <td>3 rounds, 12 each</td>
+        <td><div class="ex-note">Move between all three with 30-sec rest between rounds only. High metabolic demand.</div></td>
+      </tr>
+      <tr>
+        <td>Standing Cable Pull-Through<div class="ex-joint">🍑 Glutes & posterior chain</div></td>
+        <td>3 × 12</td>
+        <td><div class="ex-note">Cable through legs, hinge at hips, drive through glutes to stand. Excellent glute and SI joint strengthener. Ask staff to show you if unsure.</div></td>
+      </tr>
+      <tr>
+        <td>Cross Trainer — 20 mins Intervals</td>
+        <td>2 mins easy / 1 min hard</td>
+        <td><div class="ex-note">You've built the fitness for this. Maximum calorie burn session.</div></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#f5eef8;">🏋️</div>
+      <div>
+        <div class="card-title">Session B — Full Upper + Functional Core</div>
+        <div class="card-subtitle">Strength consolidation</div>
+      </div>
+    </div>
+    <table class="ex-table">
+      <tr><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr>
+      <tr>
+        <td>Chest Press Machine (heavier)</td>
+        <td>4 × 8</td>
+        <td><div class="ex-note">Pushing to near-maximum effort on last 2 reps of last 2 sets. This is where lean muscle density builds.</div></td>
+      </tr>
+      <tr>
+        <td>Seated Row + Lat Pulldown Superset</td>
+        <td>4 × 10 each</td>
+        <td><div class="ex-note">Now 4 sets — increased volume from Phase 2.</div></td>
+      </tr>
+      <tr>
+        <td>Dumbbell Complex: Curl → Press → Lateral Raise</td>
+        <td>3 × 10 (light dumbbell)</td>
+        <td><div class="ex-note">One fluid movement sequence. Bicep curl, then press overhead, lower, lateral raise. Arms, shoulders, coordination. Rest 60s between sets.</div></td>
+      </tr>
+      <tr>
+        <td>Core: Pallof Press + Seated Dead Bug Superset</td>
+        <td>3 × 10 each</td>
+        <td><div class="ex-note">Combine your two safest core moves for maximum deep muscle activation.</div></td>
+      </tr>
+      <tr>
+        <td>Recumbent Bike Cool-Down</td>
+        <td>8 mins easy</td>
+        <td><div class="ex-note">Gentle legs flush. You've earned it.</div></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px;">After Week 12 — What Next?</div>
+    <ul class="signal-list">
+      <li>Return to Phase 2 intensity but with Phase 3 exercise selection — you now have a permanent programme to cycle through</li>
+      <li>Consider asking Torbay Leisure staff for a programme review — show them what you've been doing</li>
+      <li>Add a third weekly gym session if your body has adapted and you feel ready</li>
+      <li>Body Balance will have become significantly easier — you may want to try an additional class style</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== WEEKLY PLAN ===== -->
+
+<div id="weekly" class="section content">
+  <h2 class="section-title">Weekly Plan</h2>
+  <p class="section-intro">A suggested structure to space gym, swimming and Body Balance with adequate recovery.</p>
+
+  <div class="info-box teal">
+    <strong>💡 The Principle</strong>
+    Never do two high-effort sessions back to back. Gym and swimming both use large muscle groups — space them by at least one day. Body Balance is low-intensity enough to sit anywhere.
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:14px;">Suggested Week Structure</div>
+    <div class="week-grid">
+      <div class="day-row">
+        <div class="day-label">MON</div>
+        <div class="day-dot" style="background:var(--phase1);"></div>
+        <div class="day-activity" style="color:var(--phase1);">🏋️ Gym Session A (Lower Body)</div>
+      </div>
+      <div class="day-row">
+        <div class="day-label">TUE</div>
+        <div class="day-dot" style="background:#ddd;"></div>
+        <div class="day-rest">Rest or gentle walk</div>
+      </div>
+      <div class="day-row">
+        <div class="day-label">WED</div>
+        <div class="day-dot" style="background:#4a8abf;"></div>
+        <div class="day-activity" style="color:#4a8abf;">🏊 Swimming (breaststroke)</div>
+      </div>
+      <div class="day-row">
+        <div class="day-label">THU</div>
+        <div class="day-dot" style="background:var(--phase2);"></div>
+        <div class="day-activity" style="color:var(--phase2);">🏋️ Gym Session B (Upper/Core)</div>
+      </div>
+      <div class="day-row">
+        <div class="day-label">FRI</div>
+        <div class="day-dot" style="background:#ddd;"></div>
+        <div class="day-rest">Rest or light movement</div>
+      </div>
+      <div class="day-row">
+        <div class="day-label">SAT</div>
+        <div class="day-dot" style="background:var(--phase3);"></div>
+        <div class="day-activity" style="color:var(--phase3);">🧘 Lee Mills Body Balance</div>
+      </div>
+      <div class="day-row">
+        <div class="day-label">SUN</div>
+        <div class="day-dot" style="background:#ddd;"></div>
+        <div class="day-rest">Complete rest — essential for recovery & muscle building</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px;">Why Your Other Activities Are Perfect</div>
+    <div class="activity-row">
+      <div class="activity-icon">🏊</div>
+      <div>
+        <div class="activity-title">Breaststroke Swimming</div>
+        <div class="activity-detail">Breaststroke is one of the best exercises for your specific situation. It works the inner thighs and hip adductors that support your knees, it's completely non-weight-bearing (zero joint compression), the frog kick gently mobilises the SI joint, and it burns 300–400 calories per hour at medium pace. It also complements the gym by working different muscle angles.</div>
+      </div>
+    </div>
+    <div class="activity-row">
+      <div class="activity-icon">🧘</div>
+      <div>
+        <div class="activity-title">Lee Mills Body Balance</div>
+        <div class="activity-detail">Body Balance combines yoga, Pilates and tai chi — it's genuinely ideal alongside your gym programme. It lengthens the muscles your gym sessions shorten, trains the deep stabilisers of your spine (crucial for discs and SI joint), develops the balance and proprioception that protects arthritic knees, and reduces inflammation through slow mindful movement.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box gold">
+    <strong>📅 Flexible? That's Fine.</strong>
+    If work or life moves things around, the rule is: at least one full rest day between gym sessions, and try not to do gym + swim on the same day in Phase 1. By Phase 2 your recovery will be faster and you'll have more flexibility.
+  </div>
+</div>
+
+<!-- ===== JOINT CARE ===== -->
+
+<div id="joints" class="section content">
+  <h2 class="section-title">Joint Care</h2>
+  <p class="section-intro">How this programme protects and strengthens your knees, discs and SI joint — not just works around them.</p>
+
+  <div class="info-box teal">
+    <strong>The Underlying Philosophy</strong>
+    The muscles surrounding a joint are its best protection. Strong quads, hamstrings and glutes take load away from your knee cartilage. Strong back extensors and deep core muscles reduce pressure on your discs. Strong glutes and hip rotators stabilise the SI joint. Every exercise in this programme serves double duty: it builds lean muscle AND protects your joints.
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:14px;">🦵 Arthritic Knees</div>
+    <ul class="signal-list">
+      <li>Leg press is far safer than squats or lunges for arthritic knees — you control the range of movement and there's no spinal load</li>
+      <li>Keep feet at hip-width or slightly wider on leg press. Never let knees cave inward</li>
+      <li>Stop leg press range at 90 degrees if you feel discomfort — don't go to full bend</li>
+      <li>Leg curls build hamstrings — the hamstrings act as a second ACL, stabilising the knee from behind</li>
+      <li>Hip abductor work corrects the knock-knee pattern that accelerates arthritis</li>
+      <li>If knees are particularly sore on a given day, reduce leg press weight by 20% and avoid the cross trainer — recumbent bike instead</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:14px;">🔙 Disc Issues</div>
+    <ul class="signal-list">
+      <li>Zero exercises in this programme involve spinal compression (no barbell squats, no deadlifts, no overhead press standing)</li>
+      <li>All pressing and pulling is done seated with a supported back</li>
+      <li>Core work uses anti-rotation and anti-extension patterns (Pallof press, dead bug) — safer than crunches for discs</li>
+      <li>If you feel any tingling, numbness or shooting sensation down a leg during any exercise — stop immediately and rest</li>
+      <li>The seated row is one of the best exercises for disc issues — it strengthens the erector spinae and rhomboids that support spinal posture</li>
+      <li>Avoid forward-bending under load at all times</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:14px;">🍑 SI Joint Irritation</div>
+    <ul class="signal-list">
+      <li>The SI joint is stabilised primarily by the gluteus maximus and deep hip rotators — which is why hip abductor and glute work is prioritised</li>
+      <li>Avoid asymmetric loading (e.g. single-leg exercises, carrying bags on one side) particularly on flare-up days</li>
+      <li>The Pallof press is ideal — it trains the pelvis to resist rotation without loading the SI joint directly</li>
+      <li>Breaststroke frog kick gently mobilises the SI joint — the warmth of the pool also reduces irritation</li>
+      <li>Body Balance's tai chi-influenced lateral movements help restore balanced SI joint mechanics</li>
+      <li>On SI flare days: skip leg press, do upper body only, and use the recumbent bike at low resistance instead</li>
+    </ul>
+  </div>
+
+  <div class="info-box warn">
+    <strong>⚠️ Red Flags — Always Stop If You Notice:</strong>
+    Sharp or shooting pain in the leg (possible nerve involvement) · Sudden increase in back pain after a set · Dizziness or chest pain during cardio · Knee swelling after a session (apply ice, rest, review load next session)
+  </div>
+
+  <div class="info-box gold">
+    <strong>💬 Talk to the Gym Staff</strong>
+    Torbay Leisure staff can do an induction on any machine you're unsure about. Show them your joint history — good gyms appreciate members who ask. They may also be able to suggest modifications specific to their equipment.
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
